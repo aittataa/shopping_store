@@ -11,8 +11,7 @@ import 'package:shopping_store/app/modules/home/controllers/home_controller.dart
 class HomeShape extends StatelessWidget {
   final HomeController controller;
   final Product product;
-  const HomeShape({Key? key, required this.product, required this.controller})
-      : super(key: key);
+  const HomeShape({Key? key, required this.product, required this.controller}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,12 +23,11 @@ class HomeShape extends StatelessWidget {
           Expanded(
             child: Container(
               decoration: BoxDecoration(
-                color: AppTheme.backgroundImage,
+                color: AppTheme.backgroundImageColor,
                 borderRadius: BorderRadius.circular(25),
                 boxShadow: [AppConstant.boxShadow],
                 image: DecorationImage(
-                  image: CachedNetworkImageProvider(
-                      product.variants![0].picture!.location!
+                  image: CachedNetworkImageProvider(product.variants![0].picture!.location!
                       //AppMessage.placeHolder[0],
                       ),
                 ),
