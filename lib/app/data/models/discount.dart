@@ -1,6 +1,4 @@
-import 'dart:convert';
-
-Discounts discountsFromJson(String str) => Discounts.fromJson(json.decode(str));
+//Discounts discountsFromJson(String str) => Discounts.fromJson(json.decode(str));
 
 class Discounts {
   final int? limit;
@@ -32,7 +30,9 @@ class Discounts {
 
 class Discount {
   final String? id;
+  final String? publicId;
   final String? name;
+  final String? metaTitle;
   final String? description;
   final String? code;
   final DateTime? startDate;
@@ -43,7 +43,9 @@ class Discount {
 
   Discount({
     this.id,
+    this.publicId,
     this.name,
+    this.metaTitle,
     this.description,
     this.code,
     this.startDate,
@@ -56,7 +58,9 @@ class Discount {
   factory Discount.fromJson(Map<String, dynamic> json) {
     return Discount(
       id: json["id"],
+      publicId: json["publicId"],
       name: json["name"],
+      metaTitle: json["meta_title"],
       description: json["description"],
       code: json["code"],
       startDate: DateTime.parse(json["start_date"]),

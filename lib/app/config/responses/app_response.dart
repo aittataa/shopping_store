@@ -1,6 +1,9 @@
 import 'dart:io';
 
+import 'package:shopping_store/app/data/models/user.dart';
+
 class AppResponse {
+  static User mainUser = User();
   final bool success;
   final String? messageServer;
   final String? messageUser;
@@ -17,6 +20,13 @@ class AppResponse {
     try {
       switch (response.statusCode) {
         case 200:
+          return AppResponse(
+            success: true,
+            messageServer: response.reasonPhrase,
+            messageUser: response.reasonPhrase,
+            response: response.body,
+          );
+        case 201:
           return AppResponse(
             success: true,
             messageServer: response.reasonPhrase,

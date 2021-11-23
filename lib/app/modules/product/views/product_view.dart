@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shopping_store/app/config/functions/app_function.dart';
 import 'package:shopping_store/app/config/responses/app_response.dart';
 import 'package:shopping_store/app/data/models/category.dart';
 import 'package:shopping_store/app/data/models/product.dart';
@@ -8,24 +9,20 @@ import 'package:shopping_store/app/shared/back_icon.dart';
 import 'package:shopping_store/app/shared/bounce_point.dart';
 import 'package:shopping_store/app/shared/empty_box.dart';
 import 'package:shopping_store/app/shared/header_button.dart';
+import 'package:shopping_store/app/shared/product_shape.dart';
 import 'package:shopping_store/app/shared/response_error.dart';
-import 'package:shopping_store/app/shared/search_bar.dart';
 
 class ProductView extends StatefulWidget {
   final dynamic controller;
   final String? id;
   final String? title;
-  const ProductView({
-    Key? key,
-    this.controller,
-    this.id,
-    this.title,
-  }) : super(key: key);
+  const ProductView({Key? key, this.controller, this.id, this.title}) : super(key: key);
   @override
   State<ProductView> createState() => _ProductViewState();
 }
 
 class _ProductViewState extends State<ProductView> {
+  //final CategoryController controller = Get.put(CategoryController());
   late dynamic controller;
   late String? id;
   late String? title;
@@ -33,7 +30,7 @@ class _ProductViewState extends State<ProductView> {
 
   get getAppResponse async {
     Future.delayed(Duration.zero, () async {
-      appResponse = await controller.loadOne(widget.id!);
+      appResponse = await controller.loadCategory(widget.id!);
     });
   }
 
@@ -53,7 +50,6 @@ class _ProductViewState extends State<ProductView> {
         leading: BackIcon(onPressed: () => Get.back()),
         title: Text("$title"),
         actions: [
-          HeaderButton(icon: CupertinoIcons.heart_fill, onPressed: () {}),
           HeaderButton(icon: CupertinoIcons.cart_fill, onPressed: () {}),
         ],
       ),
@@ -65,14 +61,23 @@ class _ProductViewState extends State<ProductView> {
             final List<Product> myList = category.myList ?? [];
             final bool isNotEmpty = myList.isNotEmpty;
             if (isNotEmpty) {
-              return Column(
-                children: [
-                  ListTile(
-                    contentPadding: EdgeInsets.zero,
-                    minVerticalPadding: 0,
-                    subtitle: SearchBar(controller: widget.controller!),
-                  ),
-                ],
+              return GridView.builder(
+                shrinkWrap: true,
+                controller: ScrollController(),
+                padding: const EdgeInsets.all(10),
+                physics: const BouncingScrollPhysics(),
+                gridDelegate: AppFunction.gridDelegate(
+                  crossAxisCount: 2,
+                  childAspectRatio: 0.6,
+                ),
+                itemCount: myList.length,
+                itemBuilder: (context, i) {
+                  final Product product = myList[i];
+                  return ProductShape(
+                    controller: controller,
+                    product: product,
+                  );
+                },
               );
             } else {
               return EmptyBox();

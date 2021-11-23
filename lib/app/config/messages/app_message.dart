@@ -6,20 +6,42 @@ class AppMessage {
   static const String appLogo = "assets/images/logo.png";
   static const String appIcon = "assets/images/app_icon.png";
   static const String appIconRound = "assets/images/app_icon_round.png";
-  static const List<String> placeHolder = [
-    "https://vue.pixelstrap.com/multikart/_nuxt/img/6.64e2e9c.jpg",
-    "https://ae01.alicdn.com/kf/Hd46d610b652b4b6eb7bf72ffb838058d4/Women-s-Winter-Coat-Warm-Plush-Patchwork-Zipper-Pocket-Baggy-Hoodie-Casual-Kawaii-Clothes-Streetwear-Women.jpg",
-    "https://ae01.alicdn.com/kf/H9da2a428c6724d89a7d44f70feb785c2v/2021-New-Cotton-Liner-Parker-Parka-Fashion-Adjustable-Waist-Fur-Collar-Winter-Jacket-Women-Medium-Long.jpg",
-    "https://ae01.alicdn.com/kf/H8cad620692aa46d4a09f46d745a4c10f5.jpg",
-    "https://ae01.alicdn.com/kf/H00aaad503afe440e89af668201c92c9bt.jpg",
-  ];
+  static const String placeHolder = "https://vue.pixelstrap.com/multikart/_nuxt/img/6.64e2e9c.jpg";
+  static const String facebookIcon = "assets/images/facebook.png";
+  static const String googleIcon = "assets/images/google.png";
+  static const String facebookPath =
+      "https://raw.githubusercontent.com/aittataa/apco_app/master/assets/images/facebook.png";
+  static const String googlePath =
+      "https://raw.githubusercontent.com/aittataa/apco_app/master/assets/images/google.png";
+  static const String userPlaceHolder =
+      "https://www.getnow.pk/wp-content/uploads/2016/05/2.0-6.jpg";
+  //"https://cdn.dribbble.com/users/699610/avatars/normal/f692961e526daf39d8f15cb6a0c176aa.png";
+
+  /// TODO : Login View
+  static const String hintEmail = "Email";
+  static const String hintPassword = "Password";
+  static const String rememberMe = "Remember me";
+  static const String forgetPassword = "Forget Password";
+  static const String loginButtonText = "Login";
+  static const String accessText = "Access with";
+  static const String loginLabel = "Don't have an account?";
+  static const String loginTitle = "Sign up";
+
+  /// TODO : Register View
+  static const String hintFirstname = "Firstname";
+  static const String hintLastname = "Lastname";
+  static const String hintMiddlename = "Middlename ( optional ) ";
+  static const String hintPhone = "Phone";
+  static const String registerButtonText = "Create new account";
+  static const String registerLabel = "Already have an account?";
+  static const String registerTitle = "Sign in";
 
   /// TODO : Initial View
   static const String appTitle = "MultiKart";
 
   /// TODO : Home View
   static const String labelHome = "Home";
-  static const String appCurrency = "\$";
+  static const String appCurrency = r"$";
   static const String searchHint = "Search...";
   static const String welcomeTitle = "Welcome To Fashion";
   static const String labelSearch = "Search";

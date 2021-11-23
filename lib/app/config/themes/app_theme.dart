@@ -6,9 +6,12 @@ class AppTheme {
 
   //static bool isLightMode({ThemeMode mode = ThemeMode.light}) => mode == ThemeMode.light;
 
+  static const Color clearColor = Color(0xff08ff00);
+  static const Color errorColor = Color(0xfffd0000);
+
   static Color mainColor = LightTheme.mainColor;
   static Color backgroundColor = LightTheme.backgroundColor;
-  static Color backgroundImage = LightTheme.backgroundImage;
+  static Color backgroundImageColor = LightTheme.backgroundImageColor;
   static Color primaryBackColor = LightTheme.primaryBackColor;
   static Color secondaryBackColor = LightTheme.secondaryBackColor;
   static Color transparentColor = LightTheme.transparentColor;
@@ -19,6 +22,9 @@ class AppTheme {
   static Color mainIconColor = LightTheme.mainIconColor;
   static Color primaryIconColor = LightTheme.primaryIconColor;
   static Color secondaryIconColor = LightTheme.secondaryIconColor;
+
+  /// TODO : Field Text Colors
+  static const Color fieldTextBackground = LightTheme.fieldTextBackground;
 
   /// TODO : Texts
   static Color primaryTextColor = LightTheme.primaryTextColor;

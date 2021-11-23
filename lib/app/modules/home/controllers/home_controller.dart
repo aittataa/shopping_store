@@ -1,10 +1,10 @@
 import 'package:get/get.dart';
 import 'package:shopping_store/app/config/responses/app_response.dart';
-import 'package:shopping_store/app/data/data_sources/remote/data_sources.dart';
+import 'package:shopping_store/app/data/data_sources/remote/remote_data_sources.dart';
 import 'package:shopping_store/app/data/models/product.dart';
 
 class HomeController extends GetxController {
-  final DataSources _dataSources = Get.put(DataSources());
+  final RemoteDataSources _dataSources = Get.put(RemoteDataSources());
   var state = false.obs;
   var appResponse = AppResponse().obs;
   var products = Products().obs;
@@ -12,10 +12,10 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    loadAll();
+    loadProducts();
   }
 
-  loadAll() async {
+  loadProducts() async {
     state.value = true;
     AppResponse response = await _dataSources.getProducts();
     if (response.success) {
@@ -23,12 +23,5 @@ class HomeController extends GetxController {
     }
     appResponse.value = response;
     state.value = false;
-  }
-
-  loadOne(String id) async {
-    state.value = true;
-    AppResponse response = await _dataSources.getProduct(id);
-    state.value = false;
-    return response;
   }
 }

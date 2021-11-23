@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:shopping_store/app/data/models/picture.dart';
 import 'package:shopping_store/app/data/models/product.dart';
 
 Categories categoriesFromJson(String str) {
@@ -35,27 +36,35 @@ class Categories {
 
 class Category {
   final String? id;
+  final String? publicId;
   final String? name;
   final String? description;
   final String? status;
+  final Picture? picture;
   final List<Product>? myList;
 
   Category({
     this.id,
+    this.publicId,
     this.name,
     this.description,
     this.status,
+    this.picture,
     this.myList,
   });
 
   factory Category.fromJson(Map<String, dynamic> json) {
     return Category(
       id: json["id"],
+      publicId: json["publicId"],
       status: json["status"],
       name: json["name"],
       description: json["description"],
-      myList:
-          List<Product>.from(json["products"].map((x) => Product.fromJson(x))),
+      picture: json["image"] == null ? null : Picture.fromJson(json["image"]),
+      myList: json["products"] == null
+          ? []
+          : List<Product>.from(
+              json["products"].map((x) => Product.fromJson(x))),
     );
   }
 }

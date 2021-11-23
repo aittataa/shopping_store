@@ -4,7 +4,19 @@ import 'package:shopping_store/app/config/themes/app_theme.dart';
 
 class AppConstant {
   AppConstant._();
-  static const String baseUrl = "";
+
+  /// TODO : Gender Type
+  static const List genderType = ["male", "female", "Others"];
+
+  /// TODO : Screen Size
+  //static double screenWidth = Get.size.width;
+  //static double screenHeight = Get.size.height;
+  static double screenWidth = Get.width;
+  static double screenHeight = Get.height;
+
+  /// TODO : Page Index
+  static int pageIndex = 0;
+  static PageController controller = PageController();
 
   /// TODO : Curves
   static const Curve curve = Curves.linearToEaseOut;
@@ -16,11 +28,9 @@ class AppConstant {
   static const Duration durationRoute = Duration(milliseconds: 100);
   static const Duration durationSplash = Duration(milliseconds: 1500);
   static const Duration durationAnimation = Duration(milliseconds: 1000);
+  static const Duration durationCheckedBox = Duration(milliseconds: 500);
+  static const Duration durationGender = Duration(milliseconds: 250);
   static const Duration duration = Duration(milliseconds: 1500);
-
-  /// TODO : Screen Size
-  static double screenWidth = Get.width;
-  static double screenHeight = Get.height;
 
   /// TODO : BoxShadow
   static BoxShadow boxShadow = BoxShadow(

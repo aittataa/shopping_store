@@ -1,14 +1,18 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shopping_store/app/config/functions/app_function.dart';
 import 'package:shopping_store/app/config/messages/app_message.dart';
+import 'package:shopping_store/app/config/responses/app_response.dart';
 import 'package:shopping_store/app/config/themes/app_theme.dart';
 import 'package:shopping_store/app/data/models/user.dart';
+import 'package:shopping_store/app/modules/initial/views/initial_view.dart';
 import 'package:shopping_store/app/modules/profile/controllers/profile_controller.dart';
-import 'package:shopping_store/app/modules/profile/widgets/text_box.dart';
 import 'package:shopping_store/app/shared/back_icon.dart';
 import 'package:shopping_store/app/shared/edit_button.dart';
+import 'package:shopping_store/app/shared/expanded_picture.dart';
+import 'package:shopping_store/app/shared/field_text.dart';
+import 'package:shopping_store/app/shared/progress_bar.dart';
 
 class ProfileView extends StatefulWidget {
   final User? user;
@@ -19,37 +23,48 @@ class ProfileView extends StatefulWidget {
 
 class _ProfileViewState extends State<ProfileView> {
   final ProfileController controller = Get.put(ProfileController());
-  late bool obscureText = true;
+  late TextEditingController firstName = TextEditingController();
+  late TextEditingController lastName = TextEditingController();
+  late TextEditingController middleName = TextEditingController();
+  late TextEditingController phoneNumber = TextEditingController();
+
+  late User user;
+
+  late bool inAsyncCall = false;
+
+  late bool isFirstname = true;
+  late bool isLastname = true;
+  late bool isPhoneNumber = true;
+
+  @override
+  void initState() {
+    super.initState();
+    user = widget.user!;
+    firstName = TextEditingController(text: user.firstname);
+    lastName = TextEditingController(text: user.lastname);
+    middleName = TextEditingController(text: user.middlename);
+    phoneNumber = TextEditingController(text: user.phoneNumber);
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: BackIcon(onPressed: () => Get.back()),
-        title: Text(AppMessage.labelProfile),
-        centerTitle: true,
-      ),
-      body: Obx(() {
-        final User user = controller.mainUser.value;
-        return SingleChildScrollView(
+    return ProgressBar(
+      inAsyncCall: inAsyncCall,
+      opacity: .5,
+      child: Scaffold(
+        appBar: AppBar(
+          leading: BackIcon(onPressed: () => Get.back()),
+          title: Text(AppMessage.labelProfile),
+          centerTitle: true,
+        ),
+        body: SingleChildScrollView(
           padding: EdgeInsets.all(10),
           physics: BouncingScrollPhysics(),
           child: Column(
             children: [
               /// TODO : Profile Picture
-              Container(
-                width: 200,
-                height: 200,
-                margin: EdgeInsets.all(25),
-                padding: EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                  color: AppTheme.primaryBackColor,
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                    scale: .5,
-                    image: CachedNetworkImageProvider(user.imageUrl!),
-                  ),
-                ),
+              ExpandedPicture(
+                image: AppMessage.userPlaceHolder,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -80,71 +95,74 @@ class _ProfileViewState extends State<ProfileView> {
                 ),
               ),
 
-              /// TODO : About Name
+              /// TODO : Display Email
               ListTile(
                 contentPadding: EdgeInsets.zero,
                 minVerticalPadding: 0,
-                title: Row(
+                title: FieldText(
+                  controller: TextEditingController(text: user.email),
+                  icon: CupertinoIcons.mail_solid,
+                  hint: AppMessage.hintEmail,
+                  enabled: false,
+                ),
+                subtitle: Row(
                   children: [
                     Expanded(
-                      child: TextBox(
-                        controller: TextEditingController(text: user.firstname),
-                        hint: "Firstname",
+                      child: FieldText(
+                        onChanged: (String value) {
+                          setState(() {
+                            isFirstname = AppFunction.isNameValid(value.trim());
+                          });
+                        },
+                        controller: firstName,
+                        state: isFirstname,
+                        icon: CupertinoIcons.person_alt_circle_fill,
+                        hint: AppMessage.hintFirstname,
                         keyboardType: TextInputType.name,
                       ),
                     ),
                     Expanded(
-                      child: TextBox(
-                        controller:
-                            TextEditingController(text: user.middleName),
-                        hint: "Middlename",
+                      child: FieldText(
+                        onChanged: (String value) {
+                          setState(() {
+                            isLastname = AppFunction.isNameValid(value.trim());
+                          });
+                        },
+                        controller: lastName,
+                        state: isLastname,
+                        hint: AppMessage.hintLastname,
                         keyboardType: TextInputType.name,
                       ),
                     ),
                   ],
                 ),
-                subtitle: TextBox(
-                  controller: TextEditingController(text: user.lastname),
-                  hint: "Lastname",
-                  keyboardType: TextInputType.name,
-                ),
               ),
 
-              /// TODO : Phone Number
+              /// TODO : About Name And Phone Number
               ListTile(
                 contentPadding: EdgeInsets.zero,
                 minVerticalPadding: 0,
-                title: TextBox(
-                  controller: TextEditingController(text: user.phoneNumber),
-                  hint: "Phone Number",
+                title: FieldText(
+                  controller: middleName,
+                  icon: CupertinoIcons.person_fill,
+                  hint: AppMessage.hintMiddlename,
+                  keyboardType: TextInputType.name,
+                ),
+                subtitle: FieldText(
+                  onChanged: (String value) {
+                    setState(() {
+                      isPhoneNumber = GetUtils.isPhoneNumber(value.trim());
+                    });
+                  },
+                  controller: phoneNumber,
+                  state: isPhoneNumber,
+                  icon: CupertinoIcons.phone_fill,
+                  hint: AppMessage.hintPhone,
                   keyboardType: TextInputType.phone,
                 ),
               ),
 
-              /// TODO : About Password
-              ListTile(
-                contentPadding: EdgeInsets.zero,
-                minVerticalPadding: 0,
-                title: TextBox(
-                  controller: TextEditingController(text: user.password),
-                  hint: "Password",
-                  obscureText: obscureText,
-                  keyboardType: TextInputType.visiblePassword,
-                  suffixIcon: IconButton(
-                    onPressed: () {
-                      setState(() => {obscureText = !obscureText});
-                    },
-                    icon: Icon(
-                      CupertinoIcons.eye_solid,
-                      color: obscureText
-                          ? AppTheme.mainColor
-                          : AppTheme.primaryIconColor.withOpacity(.5),
-                    ),
-                  ),
-                ),
-              ),
-
-              /// TODO : Delete Account Bar
+              /// TODO : Update Account
               ListTile(
                 contentPadding: EdgeInsets.symmetric(
                   horizontal: 25,
@@ -152,15 +170,40 @@ class _ProfileViewState extends State<ProfileView> {
                 ),
                 minVerticalPadding: 0,
                 title: EditButton(
-                  onPressed: () {},
                   controller: controller,
                   label: AppMessage.saveProfile,
+                  onPressed: () async {
+                    setState(() => {inAsyncCall = true});
+                    String firstname = firstName.text.trim();
+                    String lastname = lastName.text.trim();
+                    String middlename = middleName.text.trim();
+                    String phone = phoneNumber.text.trim();
+                    AppResponse appResponse = await controller.updateUser(
+                      User(
+                        id: user.id,
+                        firstname: firstname,
+                        lastname: lastname,
+                        middlename: middlename,
+                        phoneNumber: phone,
+                      ),
+                    );
+                    if (appResponse.success) {
+                      AppResponse.mainUser = appResponse.response;
+                      Get.offAll(InitialView(id: 3));
+                    } else {
+                      AppFunction.snackBar(
+                        title: appResponse.messageUser.toString(),
+                        message: appResponse.messageUser.toString(),
+                      );
+                    }
+                    setState(() => {inAsyncCall = false});
+                  },
                 ),
               ),
             ],
           ),
-        );
-      }),
+        ),
+      ),
     );
   }
 }

@@ -15,24 +15,22 @@ class CategoryBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: GridView.builder(
-          shrinkWrap: true,
-          padding: EdgeInsets.all(10),
-          scrollDirection: Axis.vertical,
-          physics: BouncingScrollPhysics(),
-          gridDelegate: AppFunction.gridDelegate(
-            crossAxisCount: 3,
-            childAspectRatio: .64,
-          ),
-          itemCount: myList.length,
-          itemBuilder: (context, i) {
-            Category category = myList[i];
-            return CategoryShape(
-              controller: controller,
-              category: category,
-            );
-          }),
-    );
+    return GridView.builder(
+        shrinkWrap: true,
+        padding: EdgeInsets.all(10),
+        scrollDirection: Axis.vertical,
+        physics: BouncingScrollPhysics(),
+        gridDelegate: AppFunction.gridDelegate(
+          crossAxisCount: 3,
+          childAspectRatio: .64,
+        ),
+        itemCount: myList.length,
+        itemBuilder: (context, i) {
+          Category category = myList[i];
+          return CategoryShape(
+            controller: controller,
+            category: category,
+          );
+        });
   }
 }

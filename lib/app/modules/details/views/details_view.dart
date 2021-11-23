@@ -1,11 +1,10 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shopping_store/app/config/constants/app_constant.dart';
+import 'package:shopping_store/app/config/messages/app_message.dart';
 import 'package:shopping_store/app/config/responses/app_response.dart';
 import 'package:shopping_store/app/config/themes/app_theme.dart';
-import 'package:shopping_store/app/data/models/picture.dart';
 import 'package:shopping_store/app/data/models/product.dart';
 import 'package:shopping_store/app/data/models/tag.dart';
 import 'package:shopping_store/app/data/models/variant.dart';
@@ -31,7 +30,7 @@ class _DetailsViewState extends State<DetailsView> {
 
   get getAppResponse async {
     Future.delayed(Duration.zero, () async {
-      appResponse = await controller.loadOne("${widget.product!.id}");
+      appResponse = await controller.loadProduct("${widget.product!.id}");
     });
   }
 
@@ -73,18 +72,17 @@ class _DetailsViewState extends State<DetailsView> {
                   controller: pageController,
                   itemCount: variants.length,
                   itemBuilder: (context, i) {
-                    final Variant variant = variants[i];
-                    final Picture picture = variant.picture!;
+                    //final Variant variant = variants[i];
+                    //final Picture picture = variant.picture!;
                     return Container(
+                      padding: EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        color: AppTheme.backgroundImage,
+                        color: AppTheme.backgroundImageColor,
                       ),
-                      child: ImageNetwork(image: picture.location!),
-                      /*
-                      child: Image(
-                        image: CachedNetworkImageProvider(picture.location!),
+                      child: ImageNetwork(
+                        image: "${AppMessage.placeHolder}",
+                        fit: BoxFit.cover,
                       ),
-                      */
                     );
                   },
                 ),
@@ -106,7 +104,7 @@ class _DetailsViewState extends State<DetailsView> {
                         itemCount: product.variants!.length,
                         itemBuilder: (context, i) {
                           final Variant variant = variants[i];
-                          final Picture picture = variant.picture!;
+                          //final Picture picture = variant.picture!;
                           final bool state = pageIndex == i;
                           return GestureDetector(
                             onTap: () {
@@ -117,30 +115,21 @@ class _DetailsViewState extends State<DetailsView> {
                                 curve: AppConstant.curve,
                               );
                             },
-                            child: Container(
-                              margin: EdgeInsets.all(5),
-                              decoration: BoxDecoration(
-                                color: AppTheme.backgroundImage,
-                                borderRadius: BorderRadius.circular(10),
-                                image: DecorationImage(
-                                  image: CachedNetworkImageProvider(
-                                    picture.location!,
-                                  ),
-                                ),
-                              ),
+                            child: Opacity(
+                              opacity: state ? 1 : .32,
                               child: Container(
+                                margin: EdgeInsets.all(5),
                                 decoration: BoxDecoration(
+                                  color: AppTheme.backgroundImageColor,
                                   borderRadius: BorderRadius.circular(10),
-                                  color: state
-                                      ? AppTheme.transparentColor
-                                      : AppTheme.backgroundImage
-                                          .withOpacity(.75),
                                   border: Border.all(
                                     width: 1.5,
-                                    color: state
-                                        ? Color(variant.getColor)
-                                        : AppTheme.transparentColor,
+                                    color:
+                                        state ? Color(variant.getColor) : AppTheme.transparentColor,
                                   ),
+                                ),
+                                child: ImageNetwork(
+                                  image: "${AppMessage.placeHolder}",
                                 ),
                               ),
                             ),
@@ -148,31 +137,32 @@ class _DetailsViewState extends State<DetailsView> {
                         },
                       ),
                     ),
-                    SizedBox(
-                      height: 50,
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        padding: EdgeInsets.all(5),
-                        physics: BouncingScrollPhysics(),
-                        scrollDirection: Axis.horizontal,
-                        itemCount: product.tags!.length,
-                        itemBuilder: (context, i) {
-                          final Tag tag = tags[i];
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 5),
-                            child: Chip(
-                              backgroundColor: AppTheme.mainColor,
-                              label: Text("${tag.name}"),
-                              labelStyle: TextStyle(
-                                color: AppTheme.secondaryTextColor,
-                                fontWeight: FontWeight.w900,
-                                fontSize: 16,
+                    if (tags.isNotEmpty)
+                      SizedBox(
+                        height: 50,
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          padding: EdgeInsets.all(5),
+                          physics: BouncingScrollPhysics(),
+                          scrollDirection: Axis.horizontal,
+                          itemCount: product.tags!.length,
+                          itemBuilder: (context, i) {
+                            final Tag tag = tags[i];
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 5),
+                              child: Chip(
+                                backgroundColor: AppTheme.mainColor,
+                                label: Text("${tag.name}"),
+                                labelStyle: TextStyle(
+                                  color: AppTheme.secondaryTextColor,
+                                  fontWeight: FontWeight.w900,
+                                  fontSize: 16,
+                                ),
                               ),
-                            ),
-                          );
-                        },
+                            );
+                          },
+                        ),
                       ),
-                    ),
                   ],
                 )
               ],

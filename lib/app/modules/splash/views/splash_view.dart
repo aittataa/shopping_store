@@ -2,37 +2,36 @@ import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shopping_store/app/config/constants/app_constant.dart';
-import 'package:shopping_store/app/config/messages/app_message.dart';
 import 'package:shopping_store/app/config/themes/app_theme.dart';
-import 'package:shopping_store/app/modules/home/views/home_view.dart';
-import 'package:shopping_store/app/modules/login/views/login_view.dart';
+import 'package:shopping_store/app/modules/initial/views/initial_view.dart';
 import 'package:shopping_store/app/modules/splash/controllers/splash_controller.dart';
-import 'package:shopping_store/app/shared/bounce_point.dart';
+import 'package:shopping_store/app/modules/splash/widgets/splash.dart';
 
-class SplashView extends GetView<SplashController> {
-  const SplashView({Key? key}) : super(key: key);
+class SplashView extends StatelessWidget {
+  final SplashController controller = Get.put(SplashController());
 
   @override
   Widget build(BuildContext context) {
     return AnimatedSplashScreen.withScreenFunction(
       screenFunction: () async {
-        const bool state = true;
-        if (state) {
-          return HomeView();
+        //final AppResponse appResponse = await controller.loadApp;
+        return InitialView();
+        /*
+        if (appResponse.success) {
+          String id = "a1f8e073e-527b-4bdc-a953-3eacc9d2e58c";
+          final AppResponse appResponse = await controller.loadUser(id);
+          if (appResponse.success) {
+            AppResponse.mainUser = appResponse.response;
+            return InitialView();
+          } else {
+            return LoginView();
+          }
         } else {
-          return LoginView();
+          return AlertError(response: appResponse);
         }
+        */
       },
-      splash: Column(
-        children: [
-          Expanded(
-            flex: 3,
-            child: BouncePoint(color: AppTheme.mainColor),
-          ),
-          Expanded(child: Image.asset(AppMessage.appLogo))
-        ],
-      ),
-      //nextScreen: const HomeView(),
+      splash: Splash(),
       curve: AppConstant.curve,
       backgroundColor: AppTheme.primaryBackColor,
       splashTransition: SplashTransition.fadeTransition,

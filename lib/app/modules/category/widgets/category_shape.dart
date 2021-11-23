@@ -1,13 +1,10 @@
-import 'dart:math';
-
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shopping_store/app/config/messages/app_message.dart';
 import 'package:shopping_store/app/config/themes/app_theme.dart';
 import 'package:shopping_store/app/data/models/category.dart';
 import 'package:shopping_store/app/modules/category/controllers/category_controller.dart';
 import 'package:shopping_store/app/modules/product/views/product_view.dart';
+import 'package:shopping_store/app/shared/image_network.dart';
 
 class CategoryShape extends StatelessWidget {
   final CategoryController controller;
@@ -45,14 +42,10 @@ class CategoryShape extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: AppTheme.primaryBackColor,
                   borderRadius: BorderRadius.circular(25),
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: CachedNetworkImageProvider(
-                      AppMessage.placeHolder[Random().nextInt(
-                        AppMessage.placeHolder.length,
-                      )],
-                    ),
-                  ),
+                ),
+                child: ImageNetwork(
+                  image: "${category.picture!.location}",
+                  fit: BoxFit.cover,
                 ),
               ),
             ),

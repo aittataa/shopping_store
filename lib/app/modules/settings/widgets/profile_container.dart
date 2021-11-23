@@ -3,10 +3,10 @@ import 'package:get/get.dart';
 import 'package:shopping_store/app/config/messages/app_message.dart';
 import 'package:shopping_store/app/config/themes/app_theme.dart';
 import 'package:shopping_store/app/data/models/user.dart';
+import 'package:shopping_store/app/modules/profile/views/profile_view.dart';
 import 'package:shopping_store/app/modules/settings/controllers/settings_controller.dart';
 import 'package:shopping_store/app/modules/settings/widgets/profile_image.dart';
 import 'package:shopping_store/app/modules/settings/widgets/profile_info.dart';
-import 'package:shopping_store/app/routes/app_pages.dart';
 import 'package:shopping_store/app/shared/edit_button.dart';
 
 class ProfileContainer extends StatelessWidget {
@@ -28,13 +28,17 @@ class ProfileContainer extends StatelessWidget {
       ),
       child: Column(
         children: [
-          ProfileImage(controller: controller, image: user.imageUrl!),
+          //ExpandedPicture(image: AppMessage.userPlaceHolder),
+          ProfileImage(
+            controller: controller,
+            image: AppMessage.userPlaceHolder,
+          ),
           ProfileInfo(controller: controller, user: user),
           ListTile(
             contentPadding: EdgeInsets.symmetric(horizontal: 25),
             minVerticalPadding: 0,
             title: EditButton(
-              onPressed: () => Get.toNamed(Routes.PROFILE),
+              onPressed: () => Get.to(() => ProfileView(user: user)),
               controller: controller,
               label: AppMessage.editButton,
             ),

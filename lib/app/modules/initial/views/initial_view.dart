@@ -1,50 +1,45 @@
 import 'package:flutter/material.dart';
-import 'package:shopping_store/app/config/messages/app_message.dart';
+import 'package:shopping_store/app/config/constants/app_constant.dart';
+import 'package:shopping_store/app/config/functions/app_function.dart';
 import 'package:shopping_store/app/modules/category/views/category_view.dart';
 import 'package:shopping_store/app/modules/home/views/home_view.dart';
 import 'package:shopping_store/app/modules/initial/widgets/navigation_bar.dart';
+import 'package:shopping_store/app/modules/search/views/search_view.dart';
 import 'package:shopping_store/app/modules/settings/views/settings_view.dart';
 
 class InitialView extends StatefulWidget {
+  final int id;
+  const InitialView({Key? key, this.id = 0}) : super(key: key);
   @override
   State<InitialView> createState() => _InitialViewState();
 }
 
 class _InitialViewState extends State<InitialView> {
-  late PageController controller = PageController();
-  late int pageIndex;
-
   @override
   void initState() {
     super.initState();
-    pageIndex = 0;
-    controller = PageController(initialPage: pageIndex);
+    AppConstant.pageIndex = widget.id;
+    AppConstant.controller = PageController(initialPage: AppConstant.pageIndex);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: PageView(
-        controller: controller,
-        scrollDirection: Axis.horizontal,
+        controller: AppConstant.controller,
         physics: NeverScrollableScrollPhysics(),
         children: [
           HomeView(),
-          Container(child: Center(child: Text(AppMessage.labelSearch))),
+          SearchView(),
           CategoryView(),
           SettingsView(),
         ],
       ),
       bottomNavigationBar: NavigationBar(
-        currentIndex: pageIndex,
+        currentIndex: AppConstant.pageIndex,
         onTap: (index) {
           setState(() {
-            pageIndex = index;
-            controller.jumpToPage(
-              pageIndex,
-              //duration: AppConstant.duration,
-              //curve: AppConstant.curve,
-            );
+            AppFunction.animateToPage(index);
           });
         },
       ),

@@ -6,21 +6,27 @@ import 'package:shopping_store/app/shared/bounce_point.dart';
 
 class ImageNetwork extends StatelessWidget {
   final String image;
-  const ImageNetwork({Key? key, required this.image}) : super(key: key);
+  final BoxFit fit;
+  const ImageNetwork({Key? key, required this.image, this.fit = BoxFit.contain})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return CachedNetworkImage(
-      imageUrl: image,
-      progressIndicatorBuilder: (context, url, progress) {
-        return BouncePoint(size: 30);
-      },
-      errorWidget: (context, url, error) {
-        return Icon(
-          CupertinoIcons.xmark_circle_fill,
-          color: AppTheme.mainIconColor,
-        );
-      },
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(25),
+      child: CachedNetworkImage(
+        imageUrl: image,
+        fit: fit,
+        progressIndicatorBuilder: (context, url, progress) {
+          return BouncePoint(size: 30);
+        },
+        errorWidget: (context, url, error) {
+          return Icon(
+            CupertinoIcons.xmark_circle_fill,
+            color: AppTheme.mainIconColor,
+          );
+        },
+      ),
     );
   }
 }

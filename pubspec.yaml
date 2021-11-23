@@ -14,21 +14,18 @@ dependencies:
   ionicons: 0.1.2
   font_awesome_flutter: 9.2.0
   flutter_switch: 0.3.2
-  dio: 4.0.1
+  modal_progress_hud_nsn: 0.1.0-nullsafety-1
+  gender_picker: 1.1.0
   flutter: 
     sdk: flutter
 
-dev_dependencies:
-  flutter_lints: ^1.0.0
+dev_dependencies: 
   flutter_test: 
     sdk: flutter
 
-flutter:
-  uses-material-design: true
-  assets:
+flutter: 
+  assets: 
     - assets/images/
     - assets/icons/
-
-
-
+  uses-material-design: true
 

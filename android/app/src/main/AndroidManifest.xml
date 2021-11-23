@@ -1,7 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.shopping_store">
+    <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="iShopping"
+        android:label="MultiKart"
         android:icon="@mipmap/app_icon_round">
         <activity
             android:name=".MainActivity"

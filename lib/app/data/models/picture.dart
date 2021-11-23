@@ -3,6 +3,8 @@ import 'package:shopping_store/app/data/data_sources/remote/rest_api.dart';
 class Picture {
   //upload/image/5bbb4fa0-5b7c-4673-9be8-21c0184849e6
   final String? id;
+  final String? publicId;
+
   final String? alt;
   final String? location;
   final String? originalName;
@@ -14,6 +16,7 @@ class Picture {
 
   Picture({
     this.id,
+    this.publicId,
     this.alt,
     this.location,
     this.originalName,
@@ -27,6 +30,7 @@ class Picture {
   factory Picture.fromJson(Map<String, dynamic> json) {
     return Picture(
       id: json["id"],
+      publicId: json["publicId"],
       alt: json["alt"],
       location: "${RestApi.apiUrl}/upload/image/${json["id"]}",
       originalName: json["originalName"],

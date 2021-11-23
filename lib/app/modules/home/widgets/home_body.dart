@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:shopping_store/app/config/functions/app_function.dart';
 import 'package:shopping_store/app/data/models/product.dart';
 import 'package:shopping_store/app/modules/home/controllers/home_controller.dart';
-import 'package:shopping_store/app/modules/home/widgets/home_shape.dart';
+import 'package:shopping_store/app/shared/product_shape.dart';
 
 class HomeBody extends StatelessWidget {
   final HomeController controller;
@@ -16,26 +16,24 @@ class HomeBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: GridView.builder(
-        shrinkWrap: true,
-        controller: ScrollController(),
-        padding: const EdgeInsets.all(10),
-        physics: const BouncingScrollPhysics(),
-        gridDelegate: AppFunction.gridDelegate(
-          crossAxisCount: 2,
-          childAspectRatio: 0.64,
-        ),
-        itemCount: myList.length,
-        itemBuilder: (context, i) {
-          final Product product = myList[i];
-
-          return HomeShape(
-            controller: controller,
-            product: product,
-          );
-        },
+    return GridView.builder(
+      shrinkWrap: true,
+      controller: ScrollController(),
+      padding: const EdgeInsets.all(10),
+      physics: const BouncingScrollPhysics(),
+      gridDelegate: AppFunction.gridDelegate(
+        crossAxisCount: 2,
+        childAspectRatio: 0.6,
       ),
+      itemCount: myList.length,
+      itemBuilder: (context, i) {
+        final Product product = myList[i];
+
+        return ProductShape(
+          controller: controller,
+          product: product,
+        );
+      },
     );
   }
 }

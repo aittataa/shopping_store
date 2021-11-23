@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:shopping_store/app/data/models/discount.dart';
 import 'package:shopping_store/app/data/models/tag.dart';
 import 'package:shopping_store/app/data/models/variant.dart';
 
@@ -36,21 +37,34 @@ class Products {
 }
 
 class Product {
+  //     final String id;
+  //     final String publicId;
+  //     final String status;
+  //     final String name;
+  //     final dynamic metaTitle;
+  //     final String description;
+  //     final String type;
+  //     final List<dynamic> variants;
+  //     final List<Tag> tags;
+  //     final dynamic discount;
+
   final String? id;
+  final String? publicId;
   final String? name;
+  final String? metaTitle;
   final String? description;
-  final int? price;
   final String? type;
   final String? status;
   final List<Tag>? tags;
   final List<Variant>? variants;
-  final int? discount;
+  final Discount? discount;
 
   Product({
     this.id,
+    this.publicId,
     this.name,
+    this.metaTitle,
     this.description,
-    this.price,
     this.type,
     this.status,
     this.tags,
@@ -61,18 +75,17 @@ class Product {
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
       id: json["id"],
+      publicId: json["publicId"],
       name: json["name"],
+      metaTitle: json["meta_title"],
       description: json["description"],
-      price: json["price"],
       type: json["type"],
       status: json["status"],
-      tags: json["tags"] == null
-          ? []
-          : List<Tag>.from(json["tags"].map((x) => Tag.fromJson(x))),
+      tags: json["tags"] == null ? [] : List<Tag>.from(json["tags"].map((x) => Tag.fromJson(x))),
       variants: json["variants"] == null
           ? []
-          : List<Variant>.from(
-              json["variants"].map((x) => Variant.fromJson(x))),
+          : List<Variant>.from(json["variants"].map((x) => Variant.fromJson(x))),
+      discount: json["discount"] == null ? null : Discount.fromJson(json["discount"]),
     );
   }
 }
